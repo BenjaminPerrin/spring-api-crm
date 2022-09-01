@@ -16,29 +16,33 @@ import org.springframework.stereotype.Service;
  * @author ben
  */
 @Service
-public class CustomerService  implements ICustomerService{
+public class CustomerService implements ICustomerService {
+
     private final CustomerRepository repo;
-    
+
     @Autowired
     public CustomerService(CustomerRepository repo) {
         this.repo = repo;
     }
-    
+
+    @Override
     public List<Customer> findAll() {
         return repo.findAll();
     }
-    
+
+    @Override
     public Customer findBydId(Long id) throws NotFoundException {
         return repo.findById(id).orElseThrow(() -> {
             throw new NotFoundException("Customer with id: " + id + " was not found");
         });
     }
-    
-    public void create(Customer customer) throws Exception {
-        repo.save(customer);
+
+    @Override
+    public Customer create(Customer customer) {
+        return repo.save(customer);
     }
-   
-    public void save(Customer customer) {
-        repo.save(customer);
+
+    public Customer save(Customer customer) {
+        return repo.save(customer);
     }
 }
