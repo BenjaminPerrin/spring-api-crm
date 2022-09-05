@@ -16,14 +16,14 @@ public class CustomerMapper {
         if (customer == null) {
             return null;
         }
-        String state;
-        if (customer.getState()) {
-            state = "ACTIF";
-        } else {
-            state = "INACTIF";
-        }
+//        String state;
+//        if (customer.getState()) {
+//            state = "ACTIF";
+//        } else {
+//            state = "INACTIF";
+//        }
         // ou sinon en ternaire
-        //String state = customer.getState() != null && customer.getState() ? "ACTIF" : "INACTIF";
+        String state = customer.getState() != null && customer.getState() ? "ACTIF" : "INACTIF";
         return new CustomerDTO(customer.getId(), customer.getLastname(),
                 customer.getFirstname(), customer.getCompany(), customer.getMail(),
                 customer.getPhone(), customer.getAddress(), customer.getZipCode(),
@@ -79,6 +79,9 @@ public class CustomerMapper {
 
         if (content.getState() != null) {
             customer.setState(content.getState());
+        }
+        if(content.getCity() != null){
+            customer.setCity(content.getCity());
         }
 
         return customer;

@@ -4,6 +4,7 @@
  */
 package fr.m2i.apicrm.service;
 
+import fr.m2i.apicrm.dto.CustomerMapper;
 import fr.m2i.apicrm.exception.NotFoundException;
 import fr.m2i.apicrm.model.Customer;
 import fr.m2i.apicrm.repository.CustomerRepository;
@@ -31,7 +32,7 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
-    public Customer findBydId(Long id) throws NotFoundException {
+    public Customer findById(Long id) throws NotFoundException {
         return repo.findById(id).orElseThrow(() -> {
             throw new NotFoundException("Customer with id: " + id + " was not found");
         });
@@ -44,5 +45,14 @@ public class CustomerService implements ICustomerService {
 
     public Customer save(Customer customer) {
         return repo.save(customer);
+    }
+    
+    @Override
+    public Customer update(Long id, Customer content) {
+
+        Customer toUpdate = findById(id);
+        toUpdate = CustomerMapper.copy(toUpdate, content);
+
+        return repo.save(toUpdate);
     }
 }
